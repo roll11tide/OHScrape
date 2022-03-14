@@ -1,10 +1,10 @@
 import Scrape
 from Scrape import *
 
-__BUFFER_SIZE_VALID__ = 100
-__BUFFER_SIZE_INVALID__ = 100
-__DEBUG_CUTOFF__ = 10
-__TOTAL_LINES__ = 565345 # lazy
+__BUFFER_SIZE_VALID__ = 10
+__BUFFER_SIZE_INVALID__ = 10
+__DEBUG_CUTOFF__ = 10 # Set to -1 to disable
+__TOTAL_LINES__ = 565345 # Lazy hardcode
 __FILE_SOURCE__ = 'Data/ohmodhulls.txt'
 __FILE_VALID__ = 'Data/valid.csv'
 __FILE_INVALID__ = 'Data/invalid.txt'
@@ -52,7 +52,7 @@ def Run():
                 WriteBuffer('invalid')
 
             # Prevent doing entire list while testing
-            if recordCount >= __DEBUG_CUTOFF__:
+            if __DEBUG_CUTOFF__ != -1 and recordCount >= __DEBUG_CUTOFF__:
                 break
 
         # Write whatever is left in both buffers
@@ -120,5 +120,9 @@ def ResetAll():
     outputFile.close()
 
     outputFile = open(__FILE_INVALID__, "w")
+    outputFile.write('')
+    outputFile.close()
+
+    outputFile = open(__FILE_CONFIG__, "w")
     outputFile.write('')
     outputFile.close()
