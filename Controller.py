@@ -3,7 +3,7 @@ from Scrape import *
 
 __BUFFER_SIZE_VALID__ = 10
 __BUFFER_SIZE_INVALID__ = 10
-__DEBUG_CUTOFF__ = 10 # Set to -1 to disable
+__DEBUG_CUTOFF__ = -1 # Set to -1 to disable
 __TOTAL_LINES__ = 565345 # Lazy hardcode
 __FILE_SOURCE__ = 'Data/ohmodhulls.txt'
 __FILE_VALID__ = 'Data/valid.csv'

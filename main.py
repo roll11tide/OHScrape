@@ -3,6 +3,6 @@
 import Controller
 from Controller import *
 
-ResetAll()
+#ResetAll()
 
 Run()
