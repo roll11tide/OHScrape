@@ -6,8 +6,3 @@ from Controller import *
 ResetAll()
 
 Run()
-
-#print(Scrape.PullCSV('BUJ80279C516'))
-
-#print('nn\n'.rstrip('\n'))
-#print(Controller.CleanseInput('ff\\\\\\fFFF'))

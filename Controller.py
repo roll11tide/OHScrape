@@ -4,6 +4,7 @@ from Scrape import *
 __BUFFER_SIZE_VALID__ = 100
 __BUFFER_SIZE_INVALID__ = 100
 __DEBUG_CUTOFF__ = 10
+__TOTAL_LINES__ = 565345 # lazy
 __FILE_SOURCE__ = 'Data/ohmodhulls.txt'
 __FILE_VALID__ = 'Data/valid.csv'
 __FILE_INVALID__ = 'Data/invalid.txt'
@@ -11,12 +12,11 @@ __FILE_CONFIG__ = 'Data/config.txt'
 
 bufferValid = []
 bufferInvalid = []
-debugCount = 0
-lastRecord = 0
+recordCount = 0
 
 def Run():
     global __BUFFER_SIZE_VALID__, __DEBUG_CUTOFF__, __FILE_VALID__, __FILE_INVALID__
-    global bufferValid, bufferInvalid, debugCount, lastRecord
+    global bufferValid, bufferInvalid, recordCount
 
     print("Valid buffer size: " + str(__BUFFER_SIZE_VALID__))
     print("Invalid buffer size: " + str(__BUFFER_SIZE_INVALID__) + '\n')
@@ -39,9 +39,9 @@ def Run():
                 bufferValid.append(csv)
 
             # Increment regardless of record validity
-            debugCount += 1
+            recordCount += 1
 
-            # Set lastRecord in case of crash
+            # Record last record in case of crash
             WriteLastRecord(id)
 
             # Check for buffer(s) reaching cap
@@ -52,7 +52,7 @@ def Run():
                 WriteBuffer('invalid')
 
             # Prevent doing entire list while testing
-            if debugCount >= __DEBUG_CUTOFF__:
+            if recordCount >= __DEBUG_CUTOFF__:
                 break
 
         # Write whatever is left in both buffers
@@ -62,8 +62,8 @@ def Run():
         print('Done')
 
 def WriteBuffer(bufferType):
-    global __FILE_VALID__, __FILE_INVALID__
-    global bufferValid, bufferInvalid
+    global __FILE_VALID__, __FILE_INVALID__, __TOTAL_LINES__
+    global bufferValid, bufferInvalid, recordCount
 
     outputFile = open('Data/valid.csv', 'a')
 
@@ -100,10 +100,15 @@ def WriteBuffer(bufferType):
 
     outputFile.close()
 
+    progressPercent = round((recordCount / __TOTAL_LINES__) * 100, 3)
+    print('[PROGRESS] ' + str(recordCount) + ' / ' + str(__TOTAL_LINES__) + ': ' + str(progressPercent) + '%')
+
 # Persists last record in case of crash
 def WriteLastRecord(id):
+    global recordCount
+
     outputFile = open(__FILE_CONFIG__, "w")
-    outputFile.write(str(id))
+    outputFile.write(id)
     outputFile.close()
 
 # Clears valid and invalid output files
